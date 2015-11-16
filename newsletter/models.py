@@ -9,7 +9,7 @@ class SignUp(models.Model):
 	timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
 	updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 	def __unicode__(self): #Python 3.3 is __str__
-		return self.email
+		return self.email   
 
 class Book(models.Model):
     name = models.CharField(max_length=200)
@@ -18,7 +18,7 @@ class Book(models.Model):
 
 
     def __unicode__(self):
-        return self.name
-
+        return self.name 
+  
     def get_absolute_url(self):
         return reverse('books_fbv:book_edit', kwargs={'pk': self.pk})
