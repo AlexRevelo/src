@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+{% block head_title %}Bienvenido | {{ block.super }}{% endblock %}
+
+<style>
+{% block style %}
+.navbar-static-top {
+	margin-bottom: 0px !important;
+}
+
+.jumbotron {
+	background-color:rgb(14, 20, 61);;
+	color: #FFF;
+}
+
+{% endblock %}
+</style>
+
+
+     
+{% block jumbotron %}
+ {% if not request.user.is_authenticated %}
+
+<div class="jumbotron">
+ <div class="container">
+	<div class="row">
+		<div class='col-sm-6'>
+		<h1>Final Framework</h1>
+		<p>Instalar la última versión de desarrollo. Ésta es la mejor opción para usuarios que quieren las últimas-y-geniales características y que no tienen miedo a utilizar código nuevo.</p>
+		<p>
+	<!-- 	<a class="btn btn-lg btn-primary" href="" role="button">Join Us &raquo;</a>-->
+		</p>
+		</div>
+		<div class='col-sm-6' >
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/U9PARfsRav4" frameborder="0" allowfullscreen></iframe>
+
+ 		</div>
+		</div>
+	</div>
+ </div>
+ {% endif %}
+{% endblock %}
+
+
+
+
+{% block content %}
+ {% if request.user.is_authenticated %}
+<h1>Usted está en el sistema! </h1>
+
+	{% if queryset %}
+	<h2>Bienvenido {{ user }}</h2>
+	<table class='table'>
+	{% for instance in queryset %}
+		<tr><td>{{ forloop.counter }}</td><td>{{ instance.email }}</td><td>{{ instance.full_name }}</td><td>{{ instance.mensaje }}</td><td>{{ instance.timestamp|timesince }} ago</td><td><a href="{% url "book_delete" instance.id %}">delete</a></td></tr>
+	<!--	{% if instance.email == "abc@gmail.edu" %}
+		<tr><td>is equal</td></tr>
+		{% endif %}-->
+	{% endfor %}
+	</table>
+	{% else %}
+		<div class="col-sm-3 pull-center">
+  	
+			<p class='lead text-align-center'>{{ title }} {{ user }} </p>
+
+			<form method='POST' action=''>{% csrf_token %}
+			{{ form|crispy }}
+
+			<input class='btn btn-primary' type='submit' value='Enviar' />
+
+			</form>
+	</div>
+
+	{% endif %}
+
+ {% else %}
+<div class="row">
+
+ 
+
+	<div class='col-sm-3'>
+<p class='lead text-align-center'>Primera columna</p>
+			<img src='{% static "img/marketing1.jpg" %}' class='img-responsive' />
+</div>
+
+<div class='col-sm-3'>
+<p class='lead text-align-center'>segunda columna
+<br/>
+<span class='fa-stack fa-lg fa-5x'>
+<i class='fa fa-comment-o fa-stack-2x'></i>
+<i style='color:yellow;' class="fa fa-bolt fa-stack-1x"></i>
+
+</span>
+</p>
+
+</div>
+
+<div class='col-sm-3'>
+<p class='lead text-align-center'>Tercer columna <br/><br/>
+
+<span class="fa-stack fa-lg fa-5x">
+<i class="fa fa-circle-o-notch fa-stack-2x"></i>
+  <!-- <i class="fa fa-square-o fa-stack-2x"></i> -->
+  <i class="fa fa-github fa-stack-1x"></i>
+</span>
+</p>
+
+
+</div>
+
+
+</div>
+{% endif %}
+
+{% endblock %}
